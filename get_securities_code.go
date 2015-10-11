@@ -6,11 +6,6 @@ import (
     "github.com/PuerkitoBio/goquery"
 )
 
-func Exists(name string) bool {
-    _, err := os.Stat(name)
-    return !os.IsNotExist(err)
-}
-
 type Company struct {
     code  string
     brand string
@@ -26,16 +21,8 @@ func check(err error) {
 func main() {
     url := "https://indexes.nikkei.co.jp/nkave/index/component?idx=nk225"
 
-    var file *os.File
-    var err error
-
-    if Exists("code.txt") {
-        file, err = os.Open("code.txt")
-        check(err)
-    } else {
-        file, err = os.Create("code.txt")
-        check(err)
-    }
+    file, err := os.OpenFile("code.txt", os.O_WRONLY|os.O_CREATE, 0600)
+    check(err)
 
     defer file.Close()
 
