@@ -16,6 +16,7 @@ func check(err error) {
 func main() {
     url := "https://indexes.nikkei.co.jp/nkave/index/component?idx=nk225"
 
+    os.Remove("code.txt")
     file, err := os.OpenFile("code.txt", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
     check(err)
 
