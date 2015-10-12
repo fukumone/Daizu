@@ -1,2 +1,3 @@
 gom 'github.com/PuerkitoBio/goquery'
 gom 'github.com/garyburd/redigo/redis'
+gom 'github.com/benmanns/goworker'
