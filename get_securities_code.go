@@ -24,11 +24,11 @@ func main() {
     doc, _ := goquery.NewDocument(url)
     doc.Find(".cmn-table > tbody").Each(func(_ int, ele1 *goquery.Selection) {
         doc.Find("tr.cmn-charcter").Each(func(_ int, ele2 *goquery.Selection) {
-        code := strings.TrimSpace(ele2.Find("td.cmn-stock_border").First().Text())
-        brand := strings.TrimSpace(ele2.Find("td.cmn-stock_border a").Text())
-        name := strings.TrimSpace(ele2.Find("td.cmn-stock_border").Last().Text())
-        row := fmt.Sprintf("%s, %s, %s\n", code, brand, name)
-        file.WriteString(row)
+            code := strings.TrimSpace(ele2.Find("td.cmn-stock_border").First().Text())
+            brand := strings.TrimSpace(ele2.Find("td.cmn-stock_border a").Text())
+            name := strings.TrimSpace(ele2.Find("td.cmn-stock_border").Last().Text())
+            row := fmt.Sprintf("%s, %s, %s\n", code, brand, name)
+            file.WriteString(row)
         })
     })
 }
