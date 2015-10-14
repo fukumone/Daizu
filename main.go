@@ -40,8 +40,8 @@ func getPage(securities_code string) {
     doc, _ := goquery.NewDocument(url)
     doc.Find("div#detail.marB6").Each(func(_ int, s1 *goquery.Selection) {
         s1.Find("div.innerDate").Each(func(_ int, s2 *goquery.Selection) {
-            s2.Find("div.lineFi.clearfix").Each(func(_ int, s3 *goquery.Selection) {
-                fmt.Println(s3.Text())
+            s2.Find("div.lineFi.clearfix > dl.tseDtlDelay").Each(func(_ int, s3 *goquery.Selection) {
+                fmt.Println(fmt.Sprintf("%s: %s\n", s3.Find("dt.title").Text(), s3.Find("dd.ymuiEditLink.mar0 > strong").Text()))
             })
         })
     })
