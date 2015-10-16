@@ -35,27 +35,38 @@ func getNikkeiAve() {
     })
 }
 
-func getPage(securities_code string) {
+func getPage(securities_code string, file *os.File) {
     url := fmt.Sprintf("http://stocks.finance.yahoo.co.jp/stocks/detail/?code=%s", securities_code)
     doc, _ := goquery.NewDocument(url)
+    name := fmt.Sprintf("%s\n", doc.Find("th.symbol").Text())
+    file.WriteString(name)
     doc.Find("div#detail.marB6").Each(func(_ int, s1 *goquery.Selection) {
         s1.Find("div.innerDate").Each(func(_ int, s2 *goquery.Selection) {
             s2.Find("div.lineFi.clearfix > dl.tseDtlDelay").Each(func(_ int, s3 *goquery.Selection) {
-                fmt.Println(fmt.Sprintf("%s: %s\n", s3.Find("dt.title").Text(), s3.Find("dd.ymuiEditLink.mar0 > strong").Text()))
+                row := fmt.Sprintf("%s: %s\n", s3.Find("dt.title").Text(), s3.Find("dd.ymuiEditLink.mar0 > strong").Text())
+                file.WriteString(row)
             })
         })
     })
+    file.WriteString("\n")
 }
 
 func main() {
     getNikkeiAve()
+
+    os.Remove("nikkei_info.txt")
+    file, err := os.OpenFile("nikkei_info.txt", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+    check(err)
+    defer file.Close()
+
     date, err := ioutil.ReadFile("./code.txt")
     check(err)
+
     r := regexp.MustCompile(`[0-9]+`)
 
     for _, code := range strings.Split(string(date), "\n") {
         match_value := r.FindAllStringSubmatch(code, -1)
         securities_code := match_value[0][0]
-        getPage(securities_code)
+        getPage(securities_code, file)
     }
 }
