@@ -52,6 +52,7 @@ func getPage(securities_code string, file *os.File) {
 }
 
 func main() {
+    fmt.Println("株価情報を取得中.......")
     getNikkeiAve()
 
     os.Remove("nikkei_info.txt")
@@ -69,4 +70,5 @@ func main() {
         securities_code := match_value[0][0]
         getPage(securities_code, file)
     }
+    fmt.Println("株価の取得を完了しました.......")
 }
