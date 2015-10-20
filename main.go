@@ -39,6 +39,7 @@ func getPage(securities_code string, file *os.File) {
     url := fmt.Sprintf("http://stocks.finance.yahoo.co.jp/stocks/detail/?code=%s", securities_code)
     doc, _ := goquery.NewDocument(url)
     name := fmt.Sprintf("%s\n", doc.Find("th.symbol").Text())
+    fmt.Println(name)
     file.WriteString(name)
     doc.Find("div#detail.marB6").Each(func(_ int, s1 *goquery.Selection) {
         s1.Find("div.innerDate").Each(func(_ int, s2 *goquery.Selection) {
