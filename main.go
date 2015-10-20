@@ -65,8 +65,10 @@ func main() {
     check(err)
 
     r := regexp.MustCompile(`[0-9]+`)
-
     for _, code := range strings.Split(string(date), "\n") {
+        if code == "" {
+            continue
+        }
         match_value := r.FindAllStringSubmatch(code, -1)
         securities_code := match_value[0][0]
         getPage(securities_code, file)
